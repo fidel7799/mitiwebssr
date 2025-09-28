@@ -1,13 +1,10 @@
 {
-  "version": 3,
-  "framework": null,
+  "version": 2,
   "buildCommand": "npm run build",
-  "outputDirectory": "dist/mitiwebssr",
-  "functions": {
-    "api/server.mjs": {
-      "runtime": "nodejs20.x"
-    }
-  },
+  "builds": [
+    { "src": "api/server.mjs", "use": "@vercel/node" },
+    { "src": "dist/mitiwebssr/browser/**", "use": "@vercel/static" }
+  ],
   "routes": [
     {
       "src": "/assets/(.*)",
@@ -19,7 +16,7 @@
     },
     {
       "src": "/(.*)",
-      "dest": "/api/server.mjs"
+      "dest": "/api/server"
     }
   ]
 }
