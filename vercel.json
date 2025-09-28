@@ -1,0 +1,25 @@
+{
+  "version": 3,
+  "framework": null,
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/mitiwebssr",
+  "functions": {
+    "api/server.mjs": {
+      "runtime": "nodejs20.x"
+    }
+  },
+  "routes": [
+    {
+      "src": "/assets/(.*)",
+      "dest": "/dist/mitiwebssr/browser/assets/$1"
+    },
+    {
+      "src": "/favicon.ico",
+      "dest": "/dist/mitiwebssr/browser/favicon.ico"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/server.mjs"
+    }
+  ]
+}
