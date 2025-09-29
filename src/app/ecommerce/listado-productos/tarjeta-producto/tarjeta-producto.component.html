@@ -1,0 +1,137 @@
+<p-card
+        class="custom-card"
+      >
+        <ng-template pTemplate="header">
+          <!-- Contenedor para el chip -->
+          <div class="card-header-container">
+            <!-- Imagen del producto -->
+            @if (priorityImage()) {
+              <img
+                alt="Card"
+                [ngSrc]="urlImagenes + producto().sku + '.webp'"
+                width="400"
+                height="400"
+                priority
+                class="product-image"
+              />
+            } @else {
+              <img
+                alt="Card"
+                [ngSrc]="urlImagenes + producto().sku + '.webp'"
+                width="400"
+                height="400"
+                class="product-image"
+              />
+            }
+            <!-- Chip con el porcentaje de descuento -->
+            @if (bDescuento()) {
+            <p-chip
+              label="{{ porcentajeDescuento() }}% OFF🔥"
+              class="discount-chip img-chip"
+            ></p-chip>
+            } @else if (bPreventa()) {
+              <p-chip
+                label="PREVENTA"
+                class="preventa-chip img-chip"
+            ></p-chip>
+            }
+          </div>
+        </ng-template>
+        <div class="card-content p-0 m-0">
+          <p class="card-title m-0 mb-1">
+            {{ producto().nombre }}
+          </p>
+          @if (bDescuento()) {
+            <p class="precioDescuento flex justify-content-center m-0">
+              <sup class="simbolo">{{ mostrarBs() ? '$' : 'Bs' }}</sup>
+                  <span class="entero">{{ partesPrecioFinal().entero }}</span>
+                  @if (partesPrecioFinal().decimal != '00') {
+                    <sup class="decimal">.{{ partesPrecioFinal().decimal }}</sup>
+                  }
+            </p>
+          }
+          <div class="fila-precio flex">
+                <span
+                  [ngClass]="{ precioTachado: (bDescuento()) }"
+                  class="card-price flex"
+                >
+                  <sup class="simbolo">{{ mostrarBs() ? '$' : 'Bs' }}</sup>
+                  <span class="entero">{{ partesPrecioDetal().entero }}</span>
+                  @if (partesPrecioDetal().decimal != '00') {
+                    <sup class="decimal">.{{ partesPrecioDetal().decimal }}</sup>
+                  }
+                </span>
+            <span [style]="{ 'margin-top': '4px' }">/{{obtenerPresentacion()}}</span>
+          </div>
+          @if (!bPreventa()) {
+            <h5
+            class="disponibles"
+            [ngClass]="{
+              ultimaUnidad: producto().inventario.disponible === 1,
+              pocasUnidades: producto().inventario.disponible <= 5
+            }"
+          >
+            @if (producto().inventario.disponible > 10) { ✅Más de 10 disponibles } @else if
+            (producto().inventario.disponible <= 10 && producto().inventario.disponible > 1) { ⚠️{{
+              producto().inventario.disponible
+            }}
+            disponibles } @else if (producto().inventario.disponible === 1) { 🆘Última unidad }
+            @else if (producto().inventario.disponible === -1) { ✅Disponibles }
+          </h5>
+          }
+        </div>
+        <ng-template pTemplate="footer" styleClass="p-0">
+          <div class="flex p-0 w-full">
+            @if (!inCart()) {
+              <button
+                pButton
+                type="button"
+                label="Añadir"
+                class="w-full compra"
+                [attr.tabindex]="focusCtl.blockInitialFocus() ? -1 : 0"
+                (focus)="onAddButtonFocus($event.target)"
+                (click)="addToCart($event)"
+              ></button>
+            } @else {
+              <div class="qty-stepper w-full">
+                <button
+                  pButton
+                  type="button"
+                  class="stepper-btn stepper-btn--minus"
+                  (click)="decQty()"
+                  (focus)="onAddButtonFocus($event.target)"
+                  [attr.tabindex]="focusCtl.blockInitialFocus() ? -1 : 0"
+                  aria-label="Disminuir"
+                >−</button>
+                <input
+                  pInputText
+                  class="stepper-input"
+                  type="tel"
+                  inputmode="numeric"
+                  pattern="[0-9]*"
+                  [ngModel]="qtyInput()"
+                  (ngModelChange)="onQtyInput($event)"
+                  (keydown)="onQtyKeydown($event)"
+                  (paste)="onQtyPaste($event)"
+                  (blur)="onQtyBlur()"
+                  (focus)="onAddButtonFocus($event.target)"
+                  [attr.tabindex]="focusCtl.blockInitialFocus() ? -1 : 0"
+                />
+                <button
+                  pButton
+                  type="button"
+                  class="stepper-btn"
+                  [ngClass]="{ 'stepper-btn--max': maxReached() }"
+                  (click)="incQty()"
+                  [disabled]="maxReached()"
+                  [attr.aria-disabled]="maxReached()"
+                  [title]="maxReached() ? 'Stock máximo' : 'Aumentar'"
+                  aria-label="Aumentar"
+                  (focus)="onAddButtonFocus($event.target)"
+                  [attr.tabindex]="focusCtl.blockInitialFocus() ? -1 : 0"
+                >{{ maxReached() ? 'Max' : '+' }}</button>
+              </div>
+            }
+          </div>
+        </ng-template>
+      </p-card>

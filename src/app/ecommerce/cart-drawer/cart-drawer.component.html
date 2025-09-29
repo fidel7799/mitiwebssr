@@ -1,0 +1,50 @@
+<p-dialog [(visible)]="visible" [modal]="true" position="right" [draggable]="false" [resizable]="false" [dismissableMask]="true" [closeOnEscape]="true" [appendTo]="'body'" [style]="{ width: '22rem', height: '100vh', top: '0' }" [contentStyle]="{ 'display':'flex', 'flex-direction':'column', 'height':'calc(100vh - 3.5rem)', 'padding': '.5rem' }" header="Carrito">
+  <div class="cart-content" style="display:flex; flex:1; flex-direction:column; gap:.5rem;">
+    @if (items().length === 0) {
+      <div class="empty">Tu carrito está vacío</div>
+    } @else {
+  <div class="items" style="flex:1; overflow:auto;">
+        @for (it of items(); track it.idProducto) {
+          <div class="item-row">
+            <div class="top-line">
+              <div class="name ellipsis">{{ it.nombre }}</div>
+              <div class="price">{{ currencySymbol() }}{{ product.hideBolivares() ? (linePrice(it) | number:'1.2-2') : (linePrice(it) | number:'1.0-0') }}</div>
+            </div>
+            <div class="meta">
+              <span class="unit">Unit: {{ currencySymbol() }}{{ product.hideBolivares() ? (lineUnit(it) | number:'1.2-2') : (lineUnit(it) | number:'1.0-0') }}</span>
+            </div>
+            <div class="controls">
+              <p-inputNumber [showButtons]="true" [min]="0" [max]="maxFor(it.idProducto)" [step]="1"
+                             [inputId]="'qty-'+it.idProducto"
+                             [ngModel]="it.qty"
+                             (ngModelChange)="updateQty(it.idProducto, $event)"></p-inputNumber>
+              <button pButton icon="pi pi-trash" class="p-button-text p-button-danger" (click)="remove(it.idProducto)"></button>
+            </div>
+          </div>
+        }
+      </div>
+      <div class="footer" style="border-top:1px solid var(--surface-300); padding-top:.5rem;">
+        <div class="currency-toggle" style="display:flex; align-items:center; justify-content:space-between; gap:.5rem; margin-bottom:.35rem;">
+          <span style="font-size:.8rem; opacity:.85;">Descuentos en divisas</span>
+          <p-toggleSwitch [ngModel]="product.hideBolivares()" (ngModelChange)="product.hideBolivares.set($event)"></p-toggleSwitch>
+        </div>
+        <div class="subtotal" style="display:flex; flex-direction:column; gap:.15rem;">
+          @if (product.hideBolivares()) {
+            <div><span class="label">Subtotal:</span> <b> ${{ subtotalUSD() | number:'1.2-2' }}</b></div>
+          } @else {
+            <div><span class="label">Subtotal:</span> <b> Bs{{ subtotalBs() | number:'1.0-0' }}</b></div>
+            <div style="font-size:.65rem; opacity:.75; margin-top:2px;">Subtotal BCV: ${{ subtotalBCV() | number:'1.2-2' }}</div>
+          }
+        </div>
+        <div class="actions">
+          <button pButton label="Vaciar" class="p-button-text" (click)="clear()" [disabled]="totalItems()===0"></button>
+          <button pButton label="Continuar" class="p-button-raised p-button-success" (click)="onCheckout(checkoutRef)" [disabled]="totalItems()===0"></button>
+          @if (canShowDebug) {
+            <button pButton label="Simular -1 stock" class="p-button-text p-button-warning" (click)="simulateReduceRandomStock()"></button>
+          }
+        </div>
+      </div>
+    }
+  </div>
+</p-dialog>
+<app-checkout-dialog #checkoutRef></app-checkout-dialog>

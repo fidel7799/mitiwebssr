@@ -1,0 +1,64 @@
+<p-dialog [(visible)]="dialogVisible"
+          [modal]="true"
+          [draggable]="false"
+          [resizable]="false"
+          [dismissableMask]="true"
+          [closeOnEscape]="true"
+          [appendTo]="'body'"
+          [blockScroll]="true"
+          [style]="{ width: '22rem', 'z-index': 1100 }"
+          header="Datos para el pedido">
+  <div class="form" style="display:flex; flex-direction:column; gap:.75rem;">
+    <div class="field mt-2">
+      <p-floatlabel variant="on">
+  <input pInputText class="w-full" type="text" [value]="ci.nombre()" (input)="ci.nombre.set($any($event.target).value)" />
+      <label>Nombre completo</label>
+    </p-floatlabel>
+    </div>
+    <div class="field">
+      <p-floatlabel variant="on">
+  <input pInputText type="text" maxlength="12" [value]="ci.cedula()" (input)="ci.cedula.set($any($event.target).value)" />
+      <label>Cédula / Documento</label>
+    </p-floatlabel>
+      <small class="hint">Solo números 5-12 dígitos</small>
+      
+    </div>
+    <div class="field">
+      <label>Ubicación / Envío</label>
+      <div class="radio-group">
+        <div class="flex align-items-center gap-2">
+          <p-radioButton name="envio" inputId="envioCaracas" value="caracas" [ngModel]="ci.envio()" (ngModelChange)="ci.envio.set($event)" />
+          <label for="envioCaracas">Caracas</label>
+        </div>
+        <div class="flex align-items-center gap-2">
+          <p-radioButton name="envio" inputId="envioNacional" value="nacional" [ngModel]="ci.envio()" (ngModelChange)="ci.envio.set($event)" />
+          <label for="envioNacional">Envío nacional</label>
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <p-floatlabel variant="on">
+      <p-select
+        [options]="formasPagoOptions()"
+        optionLabel="label"
+        optionValue="value"
+        [ngModel]="ci.formaPago()"
+        (ngModelChange)="ci.formaPago.set($event)"
+        appendTo="body"
+        style="width:100%"
+      />
+      <label>Forma de pago</label>
+    </p-floatlabel>
+    </div>
+    <div class="preview">
+      <details>
+        <summary>Vista previa del mensaje</summary>
+        <pre style="white-space:pre-wrap; font-size:.7rem; max-height:160px; overflow:auto;">{{ cart.buildWhatsAppMessage({ nombre: ci.nombre(), cedula: ci.cedula(), envio: ci.envio(), formaPago: ci.formaPago() }) }}</pre>
+      </details>
+    </div>
+    <div class="actions" style="display:flex; justify-content: flex-end; gap:.5rem; margin-top:.25rem;">
+      <button pButton type="button" label="Cancelar" class="p-button-text" (click)="close()"></button>
+      <button pButton type="button" label="Enviar" [disabled]="!formValido() || cart.totalItems()===0" (click)="enviar()" class="p-button-success"></button>
+    </div>
+  </div>
+</p-dialog>

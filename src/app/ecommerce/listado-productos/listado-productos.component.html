@@ -1,0 +1,253 @@
+<div class="grid justify-content-center align-items-center listado">
+  
+    <div class="grid col-12 listado-categorias sm:mt-1">
+      @for(categoria of listadoCategorias; track categoria.categoria; let i = $index) {
+        <div class="col-6 sm:col-3 lg:col-3 xl:col-1 gap-1 p-1">
+          <img
+            [ngSrc]="urlImagenes + 'logos/' + categoria.categoria + '.webp'"
+            [alt]="categoria.categoria + ' Logo'"
+            width="768"
+            height="304"
+            class="categoria"
+            [class]="(categoriaActiva == categoria.categoria) || (store.filterCategories().includes(categoria.categoria)) ? 'categoria-activa' : ''"
+            (click)="toggleCategoria(categoria.categoria)"
+            priority
+          />
+        </div>
+      }
+    </div>
+    <div class="grid col-6 gap-1 justify-content-end align-items-center mr-1">
+      <p-button
+        class="envio-gratis-btn"
+        label="ENVÍO GRATIS"
+        (click)="mostrarPopupEnvioGratis = true"
+      /> 
+    </div>
+  <div class="grid col-6 gap-3 justify-content-start align-items-center">
+    <div class="filters-btn-wrapper">
+      <p-button icon="pi pi-filter" label="Filtros" (click)="openFiltros()" [style]="{ paddingLeft: '1.25rem',paddingRight: '1.25rem' }" />
+      @if (activeFiltersCount > 0) {
+        <span class="filter-badge">{{ activeFiltersCount }}</span>
+      }
+    </div>
+  </div>
+  <!-- <div class="grid col-12 gap-3">
+    <p-multiSelect
+      [options]="listadoCategorias"
+      [(ngModel)]="categoriasFiltradas"
+      optionLabel="nombre"
+      optionValue="categoria"
+      filter="false"
+      showToggleAll="false"
+      placeholder="Filtrar por categoría"
+      [style]="{ 'min-width': '300px' }"
+      (onChange)="aplicarFiltros()"
+    />
+  </div> -->
+  <!-- <div class="m-1 p-0 grid col-12 gap-3">
+    <p-button
+      class="disponibleBtn"
+      label="{{ mostrarDescuentos ? 'Mostrar Todo' : 'Mostrar Disponibles' }}"
+      (click)="filtrarDisponibles()"
+    />
+  </div> -->
+  @if (!productos || productos.length === 0) {
+  <div
+    class="flex flex-column justify-content-center align-items-center loading"
+  >
+    <i class="pi pi-spin pi-spinner" style="font-size: 2.5rem"></i>
+    <p class="text-center">Cargando...</p>
+  </div>
+  } @else if (productos && productos.length > 0 && productosOrdenados.length === 0) {
+    <div
+      class="flex flex-column justify-content-center align-items-center loading"
+    >
+      <p class="text-center">No tenemos productos que coincidan con tu búsqueda 😔</p>
+    </div>
+  } @else {
+    @if (mostrarCarruseles) {
+        @if (productosPreventa.length > 0) {
+          <div class="carousel-container">
+            <h2 class="carousel-title">✈️<span class="animated-gradient-preventa">Preventa</span></h2>
+            <owl-carousel-o [options]="customOptions">
+              @for(item of carouselItems(productosPreventa, 6); track item.sku + '-' + $index; let i = $index) {
+                <ng-template carouselSlide>
+                  <app-tarjeta-producto 
+                    [producto]="item"
+                    [mostrarBs]="store.hideBolivares()"
+                    [priorityImage]="i < 2"
+                  />
+                </ng-template>
+              }
+            </owl-carousel-o>
+          </div>
+        }
+        @if (productosDescuento.length > 0) {
+          <div class="carousel-container">
+            <h2 class="carousel-title">🔥<span class="animated-gradient-descuentos">Promociones</span></h2>
+            <owl-carousel-o [options]="customOptions">
+              @for(item of carouselItems(productosDescuento, 6); track item.sku + '-' + $index; let i = $index) {
+                <ng-template carouselSlide>
+                  <app-tarjeta-producto 
+                    [producto]="item"
+                    [mostrarBs]="store.hideBolivares()"
+                    [priorityImage]="i < 2"
+                  />
+                </ng-template>
+              }
+            </owl-carousel-o>
+          </div>
+        }
+        @if (productosCalidadPrecio.length > 0) {
+          <div class="carousel-container">
+            <h2 class="carousel-title">🤑<span class="animated-gradient-calidadprecio">Calidad/Precio</span></h2>
+            <owl-carousel-o [options]="customOptions">
+              @for(item of carouselItems(productosCalidadPrecio, 6); track item.idProducto + '-' + $index; let i = $index) {
+                <ng-template carouselSlide>
+                  <app-tarjeta-producto 
+                    [producto]="item"
+                    [mostrarBs]="store.hideBolivares()"
+                    [priorityImage]="i < 2"
+                  />
+                </ng-template>
+              }
+            </owl-carousel-o>
+          </div>
+        }
+      <div class="col-12">
+        <h2 style="text-align: center;font-size:2rem">{{ viewTitle }}⬇️</h2>
+      </div>
+    }
+    
+    @for(item of productosOrdenados; track item.idProducto; let i = $index) {
+      <div class="col-6 sm:col-4 md:col-3 lg:col-2 p-0">
+        <app-tarjeta-producto 
+          [producto]="item"
+          [mostrarBs]="store.hideBolivares()"
+          [priorityImage]="i < 6"
+        />
+      </div>
+      }
+  }
+  @if (store.hideBolivares()) {
+    <div class="col-12"><p style="text-align: center">Los precios tienen un descuento aplicado para pagos en divisas extranjeras, para conocer precios en bolívares por favor consultar por nuestros canales de atención o deshabilita el botón de "Descuentos en divisas"</p></div>
+  }
+</div>
+<p-dialog header="Envío Gratis" [modal]="true" [(visible)]="mostrarPopupEnvioGratis" [dismissableMask]="true" [style]="{ width: '25rem' }">
+  <div class="texto-modal">
+    <p class="p-text-secondary block mt-0">
+      Si tu compra (solo productos sin descuento) es mayor o igual a
+      <b>${{ freeShippingThresholdUsd }}</b>
+      o <b>Bs{{ freeShippingThresholdBs | number:'1.0-2' }}</b> (dependiendo tu método de pago)
+      tienes acceso a:
+    </p>
+    <ul class="mb-4">
+      <li>Envío nacional gratis por <b>MRW</b></li>
+      <li>Delivery gratis en Caracas <b>dependiendo la zona</b></li>
+    </ul>
+      <div class="flex justify-content-end gap-2">
+          <p-button label="Cerrar" class="envio-gratis-btn" (click)="mostrarPopupEnvioGratis = false" />
+      </div>
+  </div>
+</p-dialog>
+<p-dialog header="Filtros y Orden" [modal]="true" [(visible)]="mostrarPanelFiltros" [dismissableMask]="true" [draggable]="false" [resizable]="false"
+  [style]="{ width: '34rem', height: 'auto', 'max-height': '88vh', 'max-width': '95vw' }"
+  [contentStyle]="{ overflow: 'visible' }" [styleClass]="'filters-dialog'">
+  <div class="flex flex-column gap-3" style="padding-right:.25rem; position:relative">
+    <div class="flex align-items-center justify-content-between" style="gap:.75rem;">
+      <span style="font-size:.9rem;">Descuentos en divisas (USD)</span>
+      <p-toggleswitch [ngModel]="store.hideBolivares()" (ngModelChange)="store.hideBolivares.set($event)" />
+    </div>
+    @if (productosDescuento.length > 0) {
+      <div class="flex align-items-center justify-content-between" style="gap:.75rem;">
+        <span style="font-size:.9rem;">Mostrar únicamente productos en promoción ({{ productosDescuento.length }})</span>
+        <p-toggleswitch [ngModel]="store.viewMode() === 'promociones'" (ngModelChange)="store.viewMode.set($event ? 'promociones' : 'all')" />
+      </div>
+    }
+    @if (productosPreventa.length > 0) {
+      <div class="flex align-items-center justify-content-between" style="gap:.75rem;">
+        <span style="font-size:.9rem;">Ocultar preventa</span>
+        <p-toggleswitch [(ngModel)]="ocultarPreventa" (onChange)="toggleOcultarPreventa()"/>
+      </div>
+    }
+    <p-floatLabel variant="on">
+      <div #ordenarContainer>
+      <p-select
+        inputId="ordenarPor"
+        [options]="sortOptions"
+        optionLabel="label"
+        optionValue="value"
+  [ngModel]="sortBy"
+  (ngModelChange)="setSort($event)"
+        appendTo="body"
+        (onShow)="autoScrollIntoView(ordenarContainer)"
+        style="width:100%"
+      />
+      </div>
+      <label for="ordenarPor">Ordenar por</label>
+    </p-floatLabel>
+    <div class="grid">
+      <div class="col-12">
+        <div #franquiciasContainer>
+          <p-multiSelect
+            [options]="availableFranchises"
+            [ngModel]="store.filterCategories()"
+            (ngModelChange)="store.filterCategories.set($event)"
+            placeholder="Filtrar franquicias"
+            display="chip"
+            appendTo="body"
+            [filter]="false"
+            [showToggleAll]="false"
+            selectedItemsLabel="{0} seleccionadas"
+            (onShow)="autoScrollIntoView(franquiciasContainer)"
+            style="width:100%"
+          ></p-multiSelect>
+        </div>
+      </div>
+      <div class="col-12">
+        <div #presentacionesContainer>
+        <p-multiSelect
+          [options]="availablePresentations"
+          optionDisabled="disabled"
+          [ngModel]="selectedPresentations"
+          (ngModelChange)="setPresentations($event)"
+          placeholder="Filtrar presentaciones"
+          display="chip"
+          appendTo="body"
+          [filter]="false"
+          [showToggleAll]="false"
+          selectedItemsLabel="{0} seleccionados"
+          (onShow)="autoScrollIntoView(presentacionesContainer)"
+          style="width:100%"
+        ></p-multiSelect>
+        </div>
+      </div>
+      <div class="col-12">
+        <div #idiomasContainer>
+        <p-multiSelect
+          [options]="availableLanguages"
+          optionDisabled="disabled"
+          [ngModel]="store.filterLanguages()"
+          (ngModelChange)="store.filterLanguages.set($event)"
+          placeholder="Filtrar idiomas"
+          display="chip"
+          appendTo="body"
+          [filter]="false"
+          [showToggleAll]="false"
+          selectedItemsLabel="{0} seleccionados"
+          (onShow)="autoScrollIntoView(idiomasContainer)"
+          style="width:100%"
+        ></p-multiSelect>
+        </div>
+      </div>
+    </div>
+    <div class="flex justify-content-between gap-2 mt-2">
+      <div class="flex gap-2">
+        <p-button label="Limpiar" icon="pi pi-times" (click)="clearFiltros()" severity="secondary" />
+      </div>
+      <div class="flex gap-2">
+        <p-button label="Aplicar" icon="pi pi-check" (click)="mostrarPanelFiltros = false" />
+      </div>
+    </div>
+  </div>
+</p-dialog>

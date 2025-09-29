@@ -1,0 +1,267 @@
+/* Reserva de espacio para carruseles para evitar layout shift que pueda provocar autoscroll */
+.carousel-container {
+  min-height: 260px; /* ajustable según altura real promedio */
+  position: relative;
+}
+
+/* Clase aplicada al html cuando la app ya hizo primer frame */
+html.app-hydrated body {
+  scroll-behavior: smooth;
+}
+.grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+/* En el archivo CSS del componente */
+.animated-gradient-preventa {
+  background: linear-gradient(90deg, rgb(0, 201, 228), black);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientAnimation 4s ease infinite;
+  margin-left: 3px;
+}
+
+.carousel-title {
+  margin: 20px 0 5px 10px;
+}
+
+.animated-gradient-descuentos {
+  background: linear-gradient(90deg, red, black);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientAnimation 4s ease infinite;
+  margin-left: 3px;
+}
+
+.animated-gradient-calidadprecio {
+  background: linear-gradient(90deg, rgb(0, 255, 106), black);
+  background-size: 400% 400%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: gradientAnimation 4s ease infinite;
+  margin-left: 3px;
+}
+
+/* Badge de filtros activos */
+.filter-badge {
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  background: #ff5252;
+  color: #fff;
+  font-size: 0.7rem;
+  line-height: 1;
+  padding: 4px 6px;
+  border-radius: 999px;
+  font-weight: 600;
+  box-shadow: 0 0 0 2px var(--surface-ground, #121212);
+  animation: popIn .25s ease;
+}
+
+/* Asegura que el contenedor del botón de filtros permita posicionamiento absoluto del badge */
+.filters-btn-wrapper { position: relative; display:inline-block; }
+
+@keyframes popIn {
+  0% { transform: scale(.5); opacity: 0; }
+  70% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+@keyframes gradientAnimation {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* carrusel-productos.component.css */
+.carousel-container {
+  position: relative;
+  width: 100%;
+}
+
+.ver-mas-btn {
+  display: block;
+  margin: 1rem auto;
+  padding: 0.5rem 1.5rem;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.listado {
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.loading {
+  height: 60vh;
+}
+
+.listado-categorias {
+  position: relative;
+}
+
+.categoria {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+    padding: 2%;
+    border: 1px solid #cedae0;
+    border-radius: 8px;
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.13);
+    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.13);
+    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.13);
+    transition: all 0.18s ease-in-out;
+}
+
+.categoria:hover {
+  padding: 1% 0;
+  transition: all 0.18s ease-in-out;
+  cursor: pointer;
+}
+
+.categoria-activa {
+  border: 2px solid #00e0b0;
+  transition: all 0.18s ease-in-out;
+}
+
+.texto-modal {
+  font-size: 1.2rem;
+}
+
+:host ::ng-deep .descuentosBtn .p-button {
+  background-color: rgb(238, 1, 1);
+  min-width: 150px;
+  border: none;
+  margin: 5px;
+  /* border-color: #003a47; */
+  /* border-color: #004a5a; */
+}
+
+:host ::ng-deep .envio-gratis-btn .p-button {
+  background-color: rgb(255, 238, 0);
+  min-width: 145px;
+  color: black;
+  border: none;
+    transition: all 0.3s ease-in-out;
+  /* border-color: #003a47; */
+  /* border-color: #004a5a; */
+}
+
+:host ::ng-deep .envio-gratis-btn .p-button:hover {
+  background-color: rgb(0, 0, 0);
+  color: rgb(255, 238, 0);
+  border: none;
+    transition: all 0.3s ease-in-out;
+  /* border-color: #003a47; */
+  /* border-color: #004a5a; */
+}
+
+:host ::ng-deep .p-multiselect-option {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+ .p-multiselect-header {
+  padding: 0;
+}
+
+/* Remover completamente la cabecera (que queda vacía al desactivar filter y toggleAll) dentro del diálogo de filtros */
+ .filters-dialog .p-multiselect-header {
+  padding: 0 !important;
+  min-height: 0 !important;
+  height: 0 !important;
+  border: 0 !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+}
+
+::ng-deep .owl-carousel .owl-nav {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  transform: translateY(-50%);
+  margin: 0;
+  pointer-events: none; /* ¡Clave! Permite eventos táctiles detrás de las flechas */
+}
+
+::ng-deep .owl-carousel .owl-prev,
+::ng-deep .owl-carousel .owl-next {
+  pointer-events: auto; /* Solo las flechas son clickeables */
+  z-index: 10; /* Las flechas quedan sobre los ítems */
+  background: none !important;
+  border-radius: 50%;
+  width: 40px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: black;
+}
+
+::ng-deep .owl-carousel .owl-prev .pi,
+::ng-deep .owl-carousel .owl-next .pi {
+  color: black;
+  font-size: 1.5rem;
+  transition: all 0.35s ease-in-out;
+}
+
+::ng-deep .owl-carousel .owl-prev .pi:hover,
+::ng-deep .owl-carousel .owl-next .pi:hover {
+  color: #00b8b8 !important; /* Color al hover */
+  transition: all 0.35s ease-in-out;
+}
+
+/* Reduce scroll-blocking warnings on touch devices by hinting allowed gestures */
+::ng-deep .owl-carousel,
+::ng-deep .owl-carousel .owl-stage-outer,
+::ng-deep .owl-carousel .owl-stage {
+  /* Allow vertical page scroll; carousel handles horizontal drags */
+  touch-action: pan-y;
+  /* Improve momentum scrolling on iOS */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Optional micro-optimizations for smoother transforms */
+::ng-deep .owl-carousel .owl-stage {
+  will-change: transform;
+}
+
+@media screen and (max-width: 650px) {
+  
+  .listado {
+    margin: 0;
+  }
+
+    /* Evita overflow horizontal del dialogo de filtros y apila chips */
+    :host ::ng-deep .filters-dialog .p-dialog-content {
+      max-width: 100vw;
+      overflow-x: hidden;
+      padding-left: .65rem;
+      padding-right: .65rem;
+    }
+    :host ::ng-deep .filters-dialog .p-multiselect-token {
+      /* fuerza que cada chip use la fila completa */
+      width: 100%;
+      display: block;
+      white-space: normal;
+      margin-right: 0;
+    }
+    :host ::ng-deep .filters-dialog .p-multiselect-label {
+      white-space: normal;
+    }
+}
+
+/* (removed) Native select float-label and styling for 'Ordenar por' — now using p-select */

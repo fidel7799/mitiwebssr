@@ -1,0 +1,27 @@
+<app-inventory-adjustments-dialog></app-inventory-adjustments-dialog>
+
+<a
+  href="https://wa.me/584123055278" 
+  target="_blank"
+  class="whatsapp-button"
+  aria-label="Chatea con nosotros por WhatsApp"
+>
+  <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/whatsapp.svg" alt="WhatsApp" />
+</a>
+<button
+  type="button"
+  class="buy-button"
+  aria-label="Abrir carrito"
+  (click)="openCart()"
+>
+  Comprar
+  @if (cart.totalItems() > 0) {
+    <span class="buy-badge">{{ cart.totalItems() }}</span>
+  }
+  <i class="pi pi-shopping-cart" style="margin-left:.4rem"></i>
+</button>
+<app-encabezado></app-encabezado>
+<main class="main">
+  <app-listado-productos></app-listado-productos>
+</main>
+<app-footer></app-footer>

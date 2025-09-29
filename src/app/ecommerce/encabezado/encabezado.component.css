@@ -1,0 +1,124 @@
+/* Header principal sticky */
+.encabezado {
+  position: sticky;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  color: #fff;
+  background-color: rgb(29,29,29);
+  padding: 0.6rem 0.8rem;
+  transition: padding 180ms ease, box-shadow 180ms ease, backdrop-filter 180ms ease;
+  backdrop-filter: saturate(1) blur(0px);
+  display: flex;
+  flex-wrap: wrap; /* permite que la fila de búsqueda móvil baje a la siguiente línea */
+  align-items: center;
+  row-gap: .35rem;
+}
+
+.encabezado.compacto {
+  padding: 0.2rem 0.6rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+  backdrop-filter: saturate(1.1) blur(4px);
+}
+
+.encabezado.compacto h1 {
+  transform: translateY(-4px);
+}
+
+.cart-btn-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.cart-badge {
+  position: absolute;
+  top: 0.1rem;
+  right: 0.15rem;
+  min-width: 1rem;
+  height: 1rem;
+  padding: 0 0.25rem;
+  border-radius: 1rem;
+  background-color: var(--red-500);
+  color: white;
+  font-size: 0.75rem;
+  line-height: 1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Minimal responsive helpers if PrimeFlex isn't present; if you use PrimeFlex, these can be removed */
+@media (min-width: 640px) {
+  .sm\:hidden { display: none !important; }
+  .sm\:inline-flex { display: inline-flex !important; }
+}
+
+@media (max-width: 639.98px) {
+  .sm\:hidden { display: inline-flex !important; }
+  .sm\:inline-flex { display: none !important; }
+}
+
+.menu-content .small { font-size: .8rem; }
+.menu-content .w-full { width: 100%; }
+.menu-content .text-left { text-align: left; }
+.menu-content .mt-3 { margin-top: .75rem; }
+.menu-content .mb-2 { margin-bottom: .5rem; }
+.menu-content .py-2 { padding: .5rem 0; }
+.menu-content .gap-2 { gap: .5rem; }
+
+/* Improve scrollbar in mobile side panel */
+:host ::ng-deep .p-dialog-content {
+  scrollbar-width: auto;
+  scrollbar-color: var(--surface-500) transparent;
+}
+:host ::ng-deep .p-dialog-content::-webkit-scrollbar { width: 12px; }
+:host ::ng-deep .p-dialog-content::-webkit-scrollbar-thumb { background-color: var(--surface-500); border-radius: 8px; }
+
+/* Layout for centered brand on mobile */
+.brand { display: flex; align-items: center; gap: .5rem; }
+.right-group { display: inline-flex; align-items: center; gap: .25rem; margin-left: auto; }
+.left-group { display: inline-flex; align-items: center; }
+.flex-spacer { flex: 1 1 0; }
+
+/* Mobile: cada bloque ocupa su ancho; search row ocupa toda la fila */
+@media (max-width: 639.98px) {
+  .mobile-search-row { flex: 1 0 100%; order: 3; }
+  .left-group { order: 0; }
+  .brand { order: 1; }
+  .right-group { order: 2; }
+}
+
+/* Convert dialog into side panel visuals */
+:host ::ng-deep .p-dialog.position-left .p-dialog { height: 100vh; top: 0; }
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  color: var(--text-color-secondary);
+  font-size: .875rem;
+  padding: .25rem .8rem;
+}
+.breadcrumb a { color: var(--primary-400); text-decoration: none; }
+.breadcrumb a:hover { text-decoration: underline; }
+
+/* Search desktop */
+.search-desktop { align-items: center; gap: .25rem; }
+.search-desktop input { width: 220px; transition: width .25s ease; }
+.encabezado.compacto .search-desktop input { width: 170px; }
+.clear-btn { margin-left: .25rem; }
+
+/* Mobile search row inside header */
+.mobile-search-row { width: 100%; padding: .2rem 0 .4rem; animation: slideDown .22s ease; }
+.mobile-search-row .inner { display: flex; align-items: center; gap: .5rem; background: rgba(255,255,255,.05); padding: .4rem .55rem; border-radius: 6px; width: 100%; }
+.mobile-search-row input { width: 100%; }
+@keyframes slideDown { from { opacity:0; transform: translateY(-8px);} to { opacity:1; transform: translateY(0);} }
+
+.search-desktop input, .mobile-search-row input { background: #1d1d1d; border: 1px solid var(--surface-600,#444); color: #fff; }
+.search-desktop input:focus, .mobile-search-row input:focus { border-color: var(--primary-color,#6366f1); box-shadow: 0 0 0 1px var(--primary-color,#6366f1); }
+
+/* Hide desktop search on small screens */
+@media (max-width: 639.98px) {
+  .search-desktop { display: none !important; }
+}

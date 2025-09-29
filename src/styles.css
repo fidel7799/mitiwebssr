@@ -1,1 +1,133 @@
 /* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+/* @import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css"; */
+@import "primeflex/primeflex.css";
+@import "primeicons/primeicons.css";
+@import 'ngx-owl-carousel-o/lib/styles/scss/owl.carousel';
+@import 'ngx-owl-carousel-o/lib/styles/scss/owl.theme.default';
+
+
+:host {
+  --bright-blue: oklch(51.01% 0.274 263.83);
+  --electric-violet: oklch(53.18% 0.28 296.97);
+  --french-violet: oklch(47.66% 0.246 305.88);
+  --vivid-pink: oklch(69.02% 0.277 332.77);
+  --hot-red: oklch(61.42% 0.238 15.34);
+  --orange-red: oklch(63.32% 0.24 31.68);
+
+  --gray-900: oklch(19.37% 0.006 300.98);
+
+  font-family: system-ui !important;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:root {
+  /* Pila de fuentes del sistema explicitando nombres por plataforma para evitar que una fuente 'rara' instalada sustituya el genérico */
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  /* Brand turquoise palette */
+  --primary-50:  #e9fffb;
+  --primary-100: #c6fff4;
+  --primary-200: #9bffec;
+  --primary-300: #6ef6e0;
+  --primary-400: #3fe4d0;
+  --primary-500: #11d0bf; /* base */
+  --primary-600: #0fb4a6; /* hover */
+  --primary-700: #0f9d92; /* active */
+  --primary-800: #0c7c74;
+  --primary-900: #095c58;
+  --primary-color: var(--primary-500);
+  --primary-contrast-color: #ffffff;
+
+  /* PrimeUIX token mapping (PrimeNG 20) */
+  --p-primary-50:  var(--primary-50);
+  --p-primary-100: var(--primary-100);
+  --p-primary-200: var(--primary-200);
+  --p-primary-300: var(--primary-300);
+  --p-primary-400: var(--primary-400);
+  --p-primary-500: var(--primary-500);
+  --p-primary-600: var(--primary-600);
+  --p-primary-700: var(--primary-700);
+  --p-primary-800: var(--primary-800);
+  --p-primary-900: var(--primary-900);
+  --p-primary-color: var(--p-primary-500);
+  --p-primary-contrast-color: var(--primary-contrast-color);
+
+  /* Button component tokens: primary */
+  --p-button-primary-background: var(--p-primary-500);
+  --p-button-primary-hover-background: var(--p-primary-600);
+  --p-button-primary-active-background: var(--p-primary-700);
+  --p-button-primary-color: var(--p-primary-contrast-color);
+  --p-button-primary-border-color: transparent;
+
+  /* Button component tokens: success severity (align to brand) */
+  --p-button-success-background: var(--p-primary-500);
+  --p-button-success-hover-background: var(--p-primary-600);
+  --p-button-success-active-background: var(--p-primary-700);
+  --p-button-success-color: var(--p-primary-contrast-color);
+  --p-button-success-border-color: transparent;
+
+  /* ToggleSwitch tokens (checked state) */
+  --p-toggleswitch-checked-background: var(--p-primary-500);
+  --p-toggleswitch-checked-hover-background: var(--p-primary-600);
+}
+
+/* Evita zoom al enfocar inputs en móvil (iOS/Android) forzando 16px+ */
+@media (max-width: 640px) {
+  input[type="text"],
+  input[type="tel"],
+  input[type="email"],
+  input[type="number"],
+  input[type="search"],
+  textarea,
+  .p-inputtext,
+  .p-inputtextarea {
+    font-size: 16px !important;
+    line-height: 1.3;
+  }
+  /* Select/MultiSelect labels visuales (no inputs) para coherencia visual */
+  .p-select .p-select-label,
+  .p-multiselect .p-multiselect-label {
+    font-size: 16px;
+  }
+}
+
+/* Sobrescribe la fuente en PrimeNG */
+body,
+* {
+  font-family: var(--font-family) !important;
+}
+
+body {
+  margin: 0;
+}
+
+.pi {
+  font-family: "primeicons" !important;
+}
+
+html {
+  cursor: default;
+  font-family: system-ui !important;
+}
+
+body {
+  font-family: system-ui !important;
+}
+
+h1 {
+  font-size: 3.125rem;
+  color: var(--gray-900);
+  font-weight: 500;
+  line-height: 100%;
+  letter-spacing: -0.125rem;
+  margin: 0;
+  font-family: system-ui !important;
+}
+
+/* .p-card-content, .p-card-footer {
+  padding: 0;
+} */

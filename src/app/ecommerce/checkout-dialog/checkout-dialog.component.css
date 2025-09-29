@@ -1,0 +1,8 @@
+.field { display:flex; flex-direction:column; gap:.25rem; }
+.field label { font-size:.75rem; text-transform:uppercase; letter-spacing:.5px; }
+.field input, .field select { padding:.4rem .5rem; border:1px solid var(--surface-400,#ccc); border-radius:4px; background:#ffffff; color:#222222; }
+.field input:focus, .field select:focus { outline:none; border-color: var(--primary-color,#6366f1); box-shadow:0 0 0 1px var(--primary-color,#00e7c4); background:#fff; }
+.radio-group { display:flex; gap:1rem; font-size:.8rem; }
+.hint { font-size:.6rem; opacity:.6; }
+.preview details { background:rgba(255,255,255,.05); padding:.4rem .5rem; border-radius:4px; }
+.preview summary { cursor:pointer; font-size:.7rem; }

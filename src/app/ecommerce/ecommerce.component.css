@@ -1,0 +1,89 @@
+/* @media screen and (max-width: 650px) {
+    .content {
+      flex-direction: column;
+      width: max-content;
+    }
+
+    .divider {
+      height: 1px;
+      width: 100%;
+      background: var(--red-to-pink-to-purple-horizontal-gradient);
+      margin-block: 1.5rem;
+    }
+  } */
+
+  .whatsapp-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #25d366;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    transition: transform 0.2s;
+  }
+  
+  .whatsapp-button:hover {
+    transform: scale(1.1);
+  }
+  
+  .whatsapp-button img {
+    width: 35px;
+    height: 35px;
+    filter: invert(1); /* Hace el ícono blanco si es SVG negro */
+  }
+
+  .buy-button {
+    position: fixed;
+    bottom: 20px;
+    right: 100px; /* separado del WhatsApp */
+    background-color: #fcc409; /* amarillo del logo */
+    color: #000; /* mejor contraste sobre amarillo */
+    border: none;
+    border-radius: 999px;
+    padding: .6rem 1rem;
+    font-weight: 700;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+      display: flex;
+      cursor: pointer;
+    align-items: center;
+    transition: transform 0.2s;
+  }
+  .buy-badge {
+    margin-left: .5rem;
+    min-width: 1.35rem;
+    height: 1.35rem;
+    padding: 0 .35rem;
+    border-radius: 999px;
+    background: #ef4444;
+    color: #fff;
+    font-size: .8rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+  }
+  .buy-button:hover {
+    filter: brightness(1.04);
+    background-color: #e0b307; /* tono un poco más oscuro para hover */
+    transform: scale(1.1);
+  }
+
+  @media (max-width: 640px) {
+    .whatsapp-button {
+      bottom: 90px; /* por encima del botón Comprar */
+      right: 20px;
+    }
+    .buy-button {
+      right: 20px;
+      bottom: 20px; /* ahora debajo del WhatsApp */
+      width: calc(100% - 40px);
+      justify-content: center;
+    }
+  }

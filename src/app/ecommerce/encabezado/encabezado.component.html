@@ -1,0 +1,93 @@
+<div
+  class="flex encabezado shadow-4 mb-2"
+  [class.compacto]="scrolled()"
+>
+  <!-- Mobile: hamburger at left -->
+  <div class="left-group">
+    <button class="p-button-text" pButton type="button" icon="pi pi-bars" (click)="openMenu()"></button>
+  </div>
+
+  <div class="brand">
+    <img
+      ngSrc="logo200.webp"
+      alt="Logo de Míticas TCG - Minotauro"
+      width="100"
+      height="100"
+      priority
+      (click)="refresh()"
+    />
+    @if (!scrolled()) {
+      <h1>Catálogo</h1>
+    }
+  </div>
+
+  <div class="right-group">
+    <!-- Mobile search toggle -->
+    <button class="p-button-text sm:hidden" pButton type="button" [icon]="searchOpenMobile() ? 'pi pi-times' : 'pi pi-search'" (click)="toggleSearchMobile()"></button>
+    <!-- Desktop search input -->
+    <div class="search-desktop sm:inline-flex">
+      <span class="p-input-icon-left">
+        <i class="pi pi-search mr-2"></i>
+        <input id="headerSearchInput" pInputText type="text" placeholder="Buscar..." [ngModel]="searchText()" (ngModelChange)="onSearchChange($event)" (keydown)="onSearchKey($event)" />
+      </span>
+      @if (searchText()) {
+        <button class="p-button-text clear-btn" pButton type="button" icon="pi pi-times" (click)="clearSearch()"></button>
+      }
+    </div>
+    <!-- Desktop: ToggleSwitch visible on md+ -->
+    <div class="hidden sm:inline-flex align-items-center gap-2">
+      <span class="small">Descuentos en divisas</span>
+      <p-toggleSwitch [ngModel]="product.hideBolivares()" (ngModelChange)="product.hideBolivares.set($event)"></p-toggleSwitch>
+    </div>
+
+    <span class="cart-btn-wrapper">
+      <button pButton type="button" icon="pi pi-shopping-cart" class="p-button-text p-button-rounded" (click)="openCart()"></button>
+      @if (cart.totalItems() > 0) {
+        <span class="cart-badge">{{ cart.totalItems() }}</span>
+      }
+    </span>
+
+  <!-- Right side empty on mobile (hamburger moved left) -->
+  </div>
+
+
+  <!-- Mobile Side Panel (left) -->
+  <p-dialog [(visible)]="menuVisible" [modal]="true" position="left" [draggable]="false" [resizable]="false" [dismissableMask]="true" [closeOnEscape]="true" header="Menú" [appendTo]="'body'"
+            [style]="{ width: '18rem', height: '100vh', top: '0' }" [contentStyle]="{ 'display': 'flex', 'flex-direction': 'column', 'height': 'calc(100vh - 3.5rem)', 'overflow': 'auto', 'padding': '.75rem' }">
+    <div class="menu-content">
+  <a class="p-button p-button-text w-full text-left" (click)="goHome()">Inicio</a>
+  @if (product.productsDescuento().length > 0) {
+    <a class="p-button p-button-text w-full text-left" (click)="setPromociones()">Promociones</a>
+  }
+  @if (product.productsPreventa().length > 0) {
+    <a class="p-button p-button-text w-full text-left" (click)="setPreventa()">Preventa</a>
+  }
+      <div class="mt-3 mb-2 small text-500">
+        Tasa del dólar: <b>{{ product.tasaBCV() | number:'1.2-2' }}</b>
+      </div>
+      <div class="flex align-items-center justify-content-between gap-2 py-2">
+        <span>Descuentos en divisas</span>
+        <p-toggleSwitch [ngModel]="product.hideBolivares()" (ngModelChange)="product.hideBolivares.set($event)"></p-toggleSwitch>
+      </div>
+    </div>
+  </p-dialog>
+
+  <app-cart-drawer></app-cart-drawer>
+  @if (searchOpenMobile()) {
+    <div class="mobile-search-row sm:hidden">
+      <div class="inner">
+        <span class="p-input-icon-left flex-1">
+          <input id="headerSearchInput" pInputText type="text" placeholder="Buscar por nombre" [ngModel]="searchText()" (ngModelChange)="onSearchChange($event)" (keydown)="onSearchKey($event)" />
+        </span>
+        <button pButton type="button" class="p-button-text" icon="pi pi-times" (click)="toggleSearchMobile()"></button>
+      </div>
+    </div>
+  }
+</div>
+@if (breadcrumbText()) {
+  <nav class="breadcrumb">
+    <a routerLink="/">Inicio</a>
+    <span>/</span>
+    <span>{{ breadcrumbText() }}</span>
+  </nav>
+}

@@ -1,0 +1,43 @@
+<p-dialog
+  [(visible)]="dialogVisible"
+  [modal]="true"
+  [closable]="false"
+  [dismissableMask]="false"
+  [draggable]="false"
+  [resizable]="false"
+  header="{{ title() }}"
+>
+  @if (report(); as r) {
+    <div class="content">
+      @if (r.removed.length > 0) {
+        <div class="section">
+          <h4>Productos removidos</h4>
+          <ul>
+            @for (it of r.removed; track it.idProducto) {
+              <li>
+                <b>{{ it.nombre }}</b>
+                <span class="reason">— {{ it.reason === 'missing' ? 'ya no está en catálogo' : 'sin stock disponible' }}</span>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+      @if (r.reduced.length > 0) {
+        <div class="section">
+          <h4>Cantidades ajustadas</h4>
+          <ul>
+            @for (it of r.reduced; track it.idProducto) {
+              <li>
+                <b>{{ it.nombre }}</b>
+                <span>— de {{ it.from }} a {{ it.to }} por disponibilidad actual</span>
+              </li>
+            }
+          </ul>
+        </div>
+      }
+    </div>
+  }
+  <ng-template pTemplate="footer">
+    <p-button label="Cerrar" (click)="close()" severity="primary" [raised]="true" />
+  </ng-template>
+</p-dialog>
