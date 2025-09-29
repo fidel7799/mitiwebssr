@@ -1,4 +1,3 @@
-import { createRequestHandler } from '@angular/ssr/vercel';
-import bootstrap from '../dist/mitiwebssr/server/main.server.mjs';
+import { reqHandler } from '../dist/mitiwebssr/server/server.mjs';
 
-export default createRequestHandler({ build: bootstrap });
+export default reqHandler;
