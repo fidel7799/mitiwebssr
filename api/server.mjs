@@ -1,3 +1,5 @@
-import { reqHandler } from '../dist/mitiwebssr/server/server.mjs';
+const { reqHandler } = await import(
+	new URL('../dist/mitiwebssr/server/server.mjs', import.meta.url).href,
+);
 
 export default reqHandler;
